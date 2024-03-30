@@ -14,6 +14,13 @@ This script is used to save players outfits and let them manage them.
 # 📹 Preview
 Click [HERE](https://streamable.com/qcu2w2) to watch the preview.
 
+# 💻 How to install?
+- Download the script below
+- Add the unziped folder **cat_wardrobe** to your resources folder.
+- Execute `cat_wardrobe.sql` to your database.
+- Add `start cat_wardrobe` to your **server.cfg**.
+- Restart your server.
+
 # 💾 Database
 For the script to work, you have to insert the following SQL into your database.
 ```
