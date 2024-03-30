@@ -2,45 +2,44 @@ local actionOpened = false
 
 function OpenWardrobe()
     ESX.UI.Menu.CloseAll()
+    actionOpened = true
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'Wardrobe_Home', {
+        title = TranslateCap('wardrobe'),
+        algin = 'top-left',
+        elements = {
+            {label = TranslateCap('my_outfits'), value = 'myoutfits'},
+            {label = TranslateCap('save_current_outfit'), value = 'save'},
+        }
+    }, function(data, menu)
+        if data.current.value == 'save' then
+            local input = lib.inputDialog(TranslateCap('wardrobe'), {
+                {type = 'input', label = TranslateCap('name_the_outfit'), description = nil, required = true, min = 2, max = 25},
+                {type = 'checkbox', label = TranslateCap('favorite_outfit')},
+            }, {
+                allowCancel = true,
+            })
 
-    ESX.TriggerServerCallback('cat_wardrobe:getPlayerOutfits', function(outfits, datacloth)
-        if outfits ~= nil then
-            actionOpened = true
-            local elements = {}
-
-            for k, outfit in ipairs(outfits) do --
-                if not outfit.favourite then
-                    table.insert(elements, {label = '#'..k..' - '.. outfit.label, datacloth = outfit})
-                else
-                    table.insert(elements, {label = '⭐ - '.. outfit.label, datacloth = outfit})
-                end
+            if input ~= nil then
+                TriggerEvent('skinchanger:getSkin', function(skin)
+                    TriggerServerEvent('cat_wardrobe:saveOutfit', input[1], skin, input[2])
+                    ESX.ShowNotification(TranslateCap('outfit_saved', input[1]))
+                    ESX.UI.Menu.CloseAll()
+                    actionOpened = false
+                end)
             end
-            
-            ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'Wardrobe_Home', {
-                title = TranslateCap('wardrobe'),
-                algin = 'top-left',
-                elements = {
-                    {label = TranslateCap('my_outfits'), value = 'myoutfits'},
-                    {label = TranslateCap('save_current_outfit'), value = 'save'},
-                }
-            }, function(data, menu)
-                if data.current.value == 'save' then
-                    local input = lib.inputDialog(TranslateCap('wardrobe'), {
-                        {type = 'input', label = TranslateCap('name_the_outfit'), description = nil, required = true, min = 2, max = 25},
-                        {type = 'checkbox', label = TranslateCap('favorite_outfit')},
-                    }, {
-                        allowCancel = true,
-                    })
-
-                    if input ~= nil then
-                        TriggerEvent('skinchanger:getSkin', function(skin)
-                            TriggerServerEvent('cat_wardrobe:saveOutfit', input[1], skin, input[2])
-                            ESX.ShowNotification(TranslateCap('outfit_saved', input[1]))
-                            ESX.UI.Menu.CloseAll()
-                            actionOpened = false
-                        end)
+        elseif data.current.value == 'myoutfits' then
+            ESX.TriggerServerCallback('cat_wardrobe:getPlayerOutfits', function(outfits, datacloth)
+                if outfits ~= nil then
+                    local elements = {}
+        
+                    for k, outfit in ipairs(outfits) do --
+                        if not outfit.favourite then
+                            table.insert(elements, {label = '#'..k..' - '.. outfit.label, datacloth = outfit})
+                        else
+                            table.insert(elements, {label = '⭐ - '.. outfit.label, datacloth = outfit})
+                        end
                     end
-                elseif data.current.value == 'myoutfits' then
+
                     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'Wardrobe_My_Outfits', {
                         title = TranslateCap('my_outfits'),
                         algin = 'top-left',
@@ -50,15 +49,14 @@ function OpenWardrobe()
                     end, function(data2, menu)
                         menu.close()
                     end)
+                else
+                    ESX.ShowNotification(TranslateCap('no_outfits_in_wardrobe'))
                 end
-            end, function(data, menu)
-                menu.close()
-                actionOpened = false
             end)
-        else
-            ESX.ShowNotification(TranslateCap('no_outfits_in_wardrobe'))
-            actionOpened = false
         end
+    end, function(data, menu)
+        menu.close()
+        actionOpened = false
     end)
 end
 
@@ -93,7 +91,7 @@ function OpenDetailedActionMenu(datacloth)
                 end
             elseif data.current.value == 'rename' then
                 local input = lib.inputDialog(TranslateCap('wardrobe'), {
-                    {type = 'input', label = TranslateCap('name_the_outfit'), description = nil, required = true, min = 2, max = 10},
+                    {type = 'input', label = TranslateCap('name_the_outfit'), description = nil, required = true, min = 2, max = 25},
                 }, {
                     allowCancel = true,
                 })
