@@ -1,3 +1,7 @@
+# 🤖 Discord
+If you need assistance with the script, join my discord and I will help you. Please report any bugs on my discord.
+[Discord](https://discord.gg/wPCTtQP7UT)
+
 # ✍️ Description
 This FiveM script is a wardrobe for your ESX server.
 
@@ -38,7 +42,3 @@ CREATE TABLE IF NOT EXISTS `user_outfits` (
 - [es_extended](https://github.com/esx-framework/esx_core/releases)
 - esx_menu_default
 - [ox_lib](https://github.com/overextended/ox_lib)
-
-# 🤖 Discord
-If you need assistance with the script, join my discord and I will help you.
-[Discord](https://discord.gg/wPCTtQP7UT)
