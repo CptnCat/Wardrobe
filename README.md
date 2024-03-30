@@ -11,6 +11,9 @@ This FiveM script is a wardrobe for your ESX server.
 # 👀 Usage
 This script is used to save players outfits and let them manage them.
 
+# 📹 Preview
+Click [HERE](https://streamable.com/qcu2w2) to watch the preview.
+
 # 💾 Database
 For the script to work, you have to insert the following SQL into your database.
 ```
@@ -32,6 +35,3 @@ CREATE TABLE IF NOT EXISTS `user_outfits` (
 # 🤖 Discord
 If you need assistance with the script, join my discord and I will help you.
 [Discord](https://discord.gg/wPCTtQP7UT)
-
-# 📹 Preview
-Click [HERE](https://streamable.com/qcu2w2) to watch the preview.
