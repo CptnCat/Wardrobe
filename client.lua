@@ -2,13 +2,19 @@ local actionOpened = false
 
 function OpenWardrobe()
     ESX.UI.Menu.CloseAll()
+
+    local elements = {}
     actionOpened = true
+
+    if Config.EnableSaveCurrentOutfit == true then
+        table.insert(elements, {label = TranslateCap('save_current_outfit'), value = 'save'})
+    end
+    
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'Wardrobe_Home', {
         title = TranslateCap('wardrobe'),
         algin = 'top-left',
         elements = {
             {label = TranslateCap('my_outfits'), value = 'myoutfits'},
-            {label = TranslateCap('save_current_outfit'), value = 'save'},
         }
     }, function(data, menu)
         if data.current.value == 'save' then
@@ -133,11 +139,11 @@ CreateThread(function()
             local playerPed = PlayerPedId()
             local playerCoords = GetEntityCoords(playerPed)
 
-            local distance = Vdist(playerCoords, info.x, info.y, info.z)
+            local distance = Vdist(playerCoords, info.coords)
 
             if distance < Config.DrawDistance then
                 isNearMarker = true
-                DrawMarker(Config.MarkerType, info.x, info.y, info.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 130, false, false, 2, true, false, false, false)
+                DrawMarker(Config.MarkerType, info.coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 130, false, false, 2, true, false, false, false)
                 if distance < Config.MarkerSize.x then
 					isInMarker = true
 				end
@@ -171,4 +177,3 @@ if Config.EnableAdminCommand == true then
         OpenWardrobe()
     end)
 end
-
